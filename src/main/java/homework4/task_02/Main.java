@@ -17,12 +17,12 @@ public class Main {
     private static final String FILENAME = "data.xml";
     public static void main(String[] args) {
         List<Employee> list = parseXML(FILENAME);
-        for (Employee e : list) {
-            System.out.println(e);
-        }
+        if (!list.isEmpty()) for (Employee e : list) System.out.println(e);
+        else System.out.println("Список пустой");
+
     }
 
-    private static List<Employee> parseXML(String fileName) {
+    public static List<Employee> parseXML(String fileName) {
         List<Employee> employees = new ArrayList<>();
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -32,15 +32,13 @@ public class Main {
             readXML(root, employees);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
+        } catch (IOException | SAXException e) {
             throw new RuntimeException(e);
         }
         return employees;
     }
 
-    private static void readXML(Node node, List<Employee> employees) {
+    public static void readXML(Node node, List<Employee> employees) {
         Employee employee = null;
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {

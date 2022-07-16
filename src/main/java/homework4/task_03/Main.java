@@ -17,8 +17,8 @@ public class Main {
     public static void main(String[] args) {
         String json = readString("new_data.json");
         List<Employee> list = jsonToList(json);
-
-        for (Employee e : list) System.out.println(e);
+        if (!list.isEmpty()) for (Employee e : list) System.out.println(e);
+        else System.out.println("Список пустой");
     }
 
     public static String readString(String fileName) {

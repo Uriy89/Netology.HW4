@@ -24,10 +24,10 @@ public class Main {
         String fileName = "data.csv";
         List<Employee> list = parseCSV(columnMapping, fileName);
         String json = listToJson(list);
-        writeString(json);
+        System.out.println(json);
     }
 
-    private static List<Employee> parseCSV(String[] arr, String fileName) {
+    public static List<Employee> parseCSV(String[] arr, String fileName) {
         List<Employee> employees = new ArrayList<>();
         try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
@@ -37,20 +37,20 @@ public class Main {
                     .withMappingStrategy(strategy)
                     .build();
             employees = csv.parse();
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         return employees;
     }
 
-    private static String listToJson(List<Employee> employees) {
+    public static String listToJson(List<Employee> employees) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.setPrettyPrinting().create();
         Type listType = new TypeToken<List<Employee>>() {}.getType();
         return gson.toJson(employees, listType);
     }
 
-    private static void writeString(String str) {
+    public static void writeString(String str) {
         try (FileWriter writer = new FileWriter(Main.FILENAME)) {
             writer.write(str);
             writer.flush();
